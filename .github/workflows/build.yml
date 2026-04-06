@@ -27,11 +27,10 @@ jobs:
             ${{ runner.os }}-swift-
 
       - name: Generate Xcode project
-        run: cd MusixiOS && xcodegen generate
+        run: xcodegen generate
 
       - name: Build
         run: |
-          cd MusixiOS
           xcodebuild -project MusixiOS.xcodeproj \
             -scheme MusixiOS \
             -configuration Debug \
