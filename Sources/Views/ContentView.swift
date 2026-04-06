@@ -5,7 +5,6 @@ struct ContentView: View {
     @Environment(MusicAuthorizationService.self) private var authService
     @State private var playerManager = MusicPlayerManager()
     @State private var dataService = MusicDataService()
-    @State private var homeViewModel: HomeViewModel?
     @State private var showPermissionAlert = false
     
     var body: some View {
