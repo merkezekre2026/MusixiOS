@@ -55,19 +55,7 @@ jobs:
           APP_PATH="$HOME/Library/Developer/Xcode/DerivedData/MusixiOS-*/Build/Products/Release-iphoneos/MusixiOS.app"
           IPA_PATH="$GITHUB_WORKSPACE/MusixiOS.ipa"
           
-          xcrun simctl list devices available | grep -i iphone | head -1
-          xcodebuild -project MusixiOS.xcodeproj \
-            -scheme MusixiOS \
-            -configuration Debug \
-            -destination 'generic/platform=iOS' \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            ENABLE_BITCODE=NO \
-            -derivedDataPath "$HOME/Library/Developer/Xcode/DerivedData/MusixiOS" \
-            build
-
-          BUILT_APP="$HOME/Library/Developer/Xcode/DerivedData/MusixiOS/Build/Products/Release-iphoneos/MusixiOS.app"
+          BUILT_APP=$(find "$HOME/Library/Developer/Xcode/DerivedData" -path "*/Build/Products/Release-iphoneos/MusixiOS.app" -type d | head -1)
           
           if [ -d "$BUILT_APP" ]; then
             xcrun packagingtool -o "$IPA_PATH" --embed "$BUILT_APP"
