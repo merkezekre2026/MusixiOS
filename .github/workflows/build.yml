@@ -22,28 +22,65 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 
-      - name: Cache Swift packages
+      - name: Cache DerivedData
         uses: actions/cache@v4
         with:
-          path: |
-            ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-swift-${{ hashFiles('**/project.yml') }}
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-derived-${{ hashFiles('**/project.yml') }}
           restore-keys: |
-            ${{ runner.os }}-swift-
+            ${{ runner.os }}-derived-
 
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Build
+      - name: Build for iOS Device
         run: |
           xcodebuild -project MusixiOS.xcodeproj \
             -scheme MusixiOS \
-            -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            ENABLE_BITCODE=NO \
             build
+
+      - name: Create IPA
+        run: |
+          APP_PATH="$HOME/Library/Developer/Xcode/DerivedData/MusixiOS-*/Build/Products/Release-iphoneos/MusixiOS.app"
+          IPA_PATH="$GITHUB_WORKSPACE/MusixiOS.ipa"
+          
+          xcrun simctl list devices available | grep -i iphone | head -1
+          xcodebuild -project MusixiOS.xcodeproj \
+            -scheme MusixiOS \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            ENABLE_BITCODE=NO \
+            -derivedDataPath "$HOME/Library/Developer/Xcode/DerivedData/MusixiOS" \
+            build
+
+          BUILT_APP="$HOME/Library/Developer/Xcode/DerivedData/MusixiOS/Build/Products/Release-iphoneos/MusixiOS.app"
+          
+          if [ -d "$BUILT_APP" ]; then
+            xcrun packagingtool -o "$IPA_PATH" --embed "$BUILT_APP"
+            ls -la "$IPA_PATH"
+          else
+            echo "App not found at $BUILT_APP"
+            find "$HOME/Library/Developer/Xcode/DerivedData" -name "MusixiOS.app" -type d 2>/dev/null
+          fi
+
+      - name: Upload IPA to Releases
+        uses: softprops/action-gh-release@v1
+        if: success()
+        with:
+          files: MusixiOS.ipa
+          name: MusixiOS Release
+          body: 'MusixiOS iOS App - Built from latest commit'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
