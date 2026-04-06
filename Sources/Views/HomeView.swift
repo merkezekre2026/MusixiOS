@@ -103,9 +103,36 @@ struct FeaturedAlbumCard: View {
     let album: Album
     let onPlay: () -> Void
     
+    private var artworkView: some View {
+        Group {
+            if let artwork = album.artwork {
+                AsyncImage(url: artwork.url(width: 300, height: 300)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    default:
+                        placeholderView
+                    }
+                }
+            } else {
+                placeholderView
+            }
+        }
+    }
+    
+    private var placeholderView: some View {
+        ZStack {
+            Color.gray.opacity(0.3)
+            Image(systemName: "music.note")
+                .foregroundStyle(.secondary)
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ArtworkImage(artwork: album.artwork, size: 150, cornerRadius: 8)
+            artworkView
+                .frame(width: 150, height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             
             Text(album.title)
                 .font(.subheadline)
@@ -137,7 +164,7 @@ struct ChartsSection: View {
             
             LazyVStack(spacing: 0) {
                 ForEach(Array(songs.prefix(10).enumerated()), id: \.element.id) { index, song in
-                    SongRowView(song: song, index: index + 1, onTap: { onPlay(song) })
+                    SongRowView(song: song, index: index + 1) { onPlay(song) }
                 }
             }
         }
@@ -169,9 +196,36 @@ struct RecentSongCard: View {
     let song: Song
     let onTap: () -> Void
     
+    private var artworkView: some View {
+        Group {
+            if let artwork = song.artwork {
+                AsyncImage(url: artwork.url(width: 240, height: 240)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    default:
+                        placeholderView
+                    }
+                }
+            } else {
+                placeholderView
+            }
+        }
+    }
+    
+    private var placeholderView: some View {
+        ZStack {
+            Color.gray.opacity(0.3)
+            Image(systemName: "music.note")
+                .foregroundStyle(.secondary)
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ArtworkImage(artwork: song.artwork, size: 120, cornerRadius: 6)
+            artworkView
+                .frame(width: 120, height: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
             
             Text(song.title)
                 .font(.subheadline)

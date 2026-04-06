@@ -50,7 +50,7 @@ final class MusicDataService {
         errorMessage = nil
         
         do {
-            var request = MusicRecentlyPlayedRequest()
+            var request = MusicRecentlyPlayedRequest<Song>()
             request.limit = 20
             
             let response = try await request.response()

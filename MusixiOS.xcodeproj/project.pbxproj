@@ -11,21 +11,17 @@
 		273AAE5A72DBC3862D158985 /* SongRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AE98E58E7E3BE5FB9B7FAA /* SongRowView.swift */; };
 		2C442E42D490E78CFBE83073 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD636D54DF8DCDBDC04904C /* SearchView.swift */; };
 		380E982CEAE2965B6C1BD717 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A4E32AFA0C6A7841927FC7 /* LibraryView.swift */; };
-		4028C07035B4ACCD5F65FCFE /* Artwork+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417739C87EC5678E24639A7A /* Artwork+Extensions.swift */; };
 		49CB12009BCAC12E03BA829C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9AF45A874F867EF3412C51 /* MainTabView.swift */; };
 		53A7E1740BA4AC9C89569253 /* MusicDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF7913D0393FA036DAF66AE /* MusicDataService.swift */; };
 		57CE5ED81060A8B44C8477F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FB129629326702EAC5FFAB /* ContentView.swift */; };
 		65A56EEB43B5FFEBBF70B95B /* MusicPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592563D4280AD1E096A10313 /* MusicPlayerManager.swift */; };
 		7802DA46850DE1711938BAED /* MusicAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51537001AB61FA538467921 /* MusicAuthorizationService.swift */; };
 		8A524BA7ED1CAA65C8D6465C /* NowPlayingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCADD1FEF3F2E24CB67012F /* NowPlayingBar.swift */; };
-		B8F6F74135372AA137680E7E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425BF2E8B28933E5FA0C7BC5 /* HomeViewModel.swift */; };
 		EB959040A5891A518860426E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67DD7599CD335CD1A7BF12CE /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		01AE98E58E7E3BE5FB9B7FAA /* SongRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRowView.swift; sourceTree = "<group>"; };
-		417739C87EC5678E24639A7A /* Artwork+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Artwork+Extensions.swift"; sourceTree = "<group>"; };
-		425BF2E8B28933E5FA0C7BC5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4DD636D54DF8DCDBDC04904C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		55FB129629326702EAC5FFAB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		58FED836D7A9C1FAA41A871E /* MusixiOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MusixiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,32 +46,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2387005B8DB08FC1E4AB5BED /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				425BF2E8B28933E5FA0C7BC5 /* HomeViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		40306A31D0FC30A8C635C50A /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				C5D28443985430E6AAFEBAE3 /* App */,
 				8902859EF60D68CB4458EBD2 /* Extensions */,
-				4E104270DBA297AE76425135 /* Models */,
 				F811CFAF810EFD2F3554F72B /* Services */,
-				2387005B8DB08FC1E4AB5BED /* ViewModels */,
 				C8DE1304CCFA5A5F341C4943 /* Views */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		4E104270DBA297AE76425135 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		7371BE2A230A50374D81A440 /* Resources */ = {
@@ -90,7 +69,6 @@
 		8902859EF60D68CB4458EBD2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				417739C87EC5678E24639A7A /* Artwork+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -195,10 +173,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4028C07035B4ACCD5F65FCFE /* Artwork+Extensions.swift in Sources */,
 				57CE5ED81060A8B44C8477F3 /* ContentView.swift in Sources */,
 				EB959040A5891A518860426E /* HomeView.swift in Sources */,
-				B8F6F74135372AA137680E7E /* HomeViewModel.swift in Sources */,
 				380E982CEAE2965B6C1BD717 /* LibraryView.swift in Sources */,
 				49CB12009BCAC12E03BA829C /* MainTabView.swift in Sources */,
 				7802DA46850DE1711938BAED /* MusicAuthorizationService.swift in Sources */,

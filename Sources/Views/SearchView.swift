@@ -48,11 +48,11 @@ struct SearchResultsView: View {
                 if !results.songs.isEmpty {
                     SearchSection(title: "Şarkılar") {
                         ForEach(results.songs) { song in
-                            SongRowView(song: song, onTap: {
+                            SongRowView(song: song) {
                                 Task {
                                     try? await playerManager.play(song)
                                 }
-                            })
+                            }
                         }
                     }
                 }
@@ -104,11 +104,36 @@ struct SearchSection<Content: View>: View {
 struct AlbumRowView: View {
     let album: Album
     
+    private var artworkView: some View {
+        Group {
+            if let artwork = album.artwork {
+                AsyncImage(url: artwork.url(width: 100, height: 100)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    default:
+                        placeholderView
+                    }
+                }
+            } else {
+                placeholderView
+            }
+        }
+    }
+    
+    private var placeholderView: some View {
+        ZStack {
+            Color.gray.opacity(0.3)
+            Image(systemName: "music.note")
+                .foregroundStyle(.secondary)
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 12) {
-            if let artwork = album.artwork {
-                ArtworkImage(artwork: artwork, size: 50, cornerRadius: 4)
-            }
+            artworkView
+                .frame(width: 50, height: 50)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(album.title)
@@ -129,19 +154,37 @@ struct AlbumRowView: View {
 struct ArtistRowView: View {
     let artist: Artist
     
+    private var artworkView: some View {
+        Group {
+            if let artwork = artist.artwork {
+                AsyncImage(url: artwork.url(width: 100, height: 100)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    default:
+                        placeholderView
+                    }
+                }
+            } else {
+                placeholderView
+            }
+        }
+    }
+    
+    private var placeholderView: some View {
+        Circle()
+            .fill(Color.gray.opacity(0.3))
+            .frame(width: 50, height: 50)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .foregroundStyle(.secondary)
+            )
+    }
+    
     var body: some View {
         HStack(spacing: 12) {
-            if let artwork = artist.artwork {
-                ArtworkImage(artwork: artwork, size: 50, cornerRadius: 25)
-            } else {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 50, height: 50)
-                    .overlay(
-                        Image(systemName: "person.fill")
-                            .foregroundStyle(.secondary)
-                    )
-            }
+            artworkView
+                .clipShape(Circle())
             
             Text(artist.name)
                 .font(.body)
@@ -156,10 +199,36 @@ struct MusicVideoRowView: View {
     let video: MusicVideo
     let playerManager: MusicPlayerManager
     
+    private var artworkView: some View {
+        Group {
+            if let artwork = video.artwork {
+                AsyncImage(url: artwork.url(width: 160, height: 100)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().aspectRatio(contentMode: .fill)
+                    default:
+                        placeholderView
+                    }
+                }
+            } else {
+                placeholderView
+            }
+        }
+    }
+    
+    private var placeholderView: some View {
+        ZStack {
+            Color.gray.opacity(0.3)
+            Image(systemName: "play.rectangle.fill")
+                .foregroundStyle(.secondary)
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 12) {
-            ArtworkImage(artwork: video.artwork, size: 80, cornerRadius: 6)
+            artworkView
                 .frame(width: 80, height: 50)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(video.title)
@@ -176,11 +245,9 @@ struct MusicVideoRowView: View {
             
             Spacer()
             
-            if let duration = video.videoDuration {
-                Text(formatDuration(duration))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            Text(formatDuration(180))
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
     
