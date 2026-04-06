@@ -74,18 +74,12 @@ jobs:
             find "$HOME/Library/Developer/Xcode/DerivedData" -name "MusixiOS.app" -type d 2>/dev/null
           fi
 
-      - name: Create Tag
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git tag ${{ github.event.inputs.tag }}
-          git push origin ${{ github.event.inputs.tag }}
-
       - name: Upload IPA to Releases
         uses: softprops/action-gh-release@v1
         if: success()
         with:
           files: MusixiOS.ipa
+          tag_name: ${{ github.event.inputs.tag }}
           name: ${{ github.event.inputs.tag }}
           body: 'MusixiOS iOS App - Release ${{ github.event.inputs.tag }}'
         env:
