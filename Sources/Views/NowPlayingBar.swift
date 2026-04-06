@@ -38,7 +38,7 @@ struct NowPlayingBar: View {
                             .font(.subheadline)
                             .lineLimit(1)
                         
-                        Text(song.artistName ?? "Bilinmiyor")
+                        Text(song.artistName)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)

@@ -46,7 +46,7 @@ struct SongRowView: View {
                         .font(.body)
                         .lineLimit(1)
                     
-                    Text(song.artistName ?? "Bilinmiyor")
+                    Text(song.artistName)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)

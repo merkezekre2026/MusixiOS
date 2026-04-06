@@ -140,7 +140,7 @@ struct AlbumRowView: View {
                     .font(.body)
                     .lineLimit(1)
                 
-                Text(album.artistName ?? "Bilinmiyor")
+                Text(album.artistName)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
@@ -235,12 +235,10 @@ struct MusicVideoRowView: View {
                     .font(.body)
                     .lineLimit(1)
                 
-                if let artist = video.artistName {
-                    Text(artist)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                }
+                Text(video.artistName)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
             }
             
             Spacer()
