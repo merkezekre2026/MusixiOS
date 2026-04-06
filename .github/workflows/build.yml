@@ -2,9 +2,11 @@ name: Build
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
 
 jobs:
   build:
@@ -77,8 +79,8 @@ jobs:
         if: success()
         with:
           files: MusixiOS.ipa
-          name: MusixiOS Release
-          body: 'MusixiOS iOS App - Built from latest commit'
+          name: ${{ github.event.inputs.tag }}
+          body: 'MusixiOS iOS App - Release ${{ github.event.inputs.tag }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
