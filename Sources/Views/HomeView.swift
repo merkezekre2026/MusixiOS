@@ -54,13 +54,13 @@ struct HomeView: View {
     
     private func loadData() async {
         isLoading = true
-        async let charts = dataService.fetchTopCharts()
-        async let albums = dataService.fetchFeaturedAlbums()
-        async let recent = dataService.fetchRecentlyPlayed()
+        async let charts: MusicItemCollection<Song> = dataService.fetchTopCharts()
+        async let albums: MusicItemCollection<Album> = dataService.fetchFeaturedAlbums()
         
         topCharts = await charts
         featuredAlbums = await albums
-        recentlyPlayed = await recent
+        await dataService.fetchRecentlyPlayed()
+        recentlyPlayed = dataService.recentlyPlayed
         isLoading = false
     }
     
@@ -71,7 +71,7 @@ struct HomeView: View {
     }
     
     private func playAlbum(_ songs: [Song]) {
-        guard let first = songs.first else { return }
+        guard !songs.isEmpty else { return }
         Task {
             try? await playerManager.play(songs, startIndex: 0)
         }
@@ -138,12 +138,10 @@ struct FeaturedAlbumCard: View {
                 .font(.subheadline)
                 .lineLimit(1)
             
-            if let artist = album.artistName {
-                Text(artist)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
+            Text(album.artistName)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
         }
         .frame(width: 150)
         .onTapGesture {
@@ -231,12 +229,10 @@ struct RecentSongCard: View {
                 .font(.subheadline)
                 .lineLimit(1)
             
-            if let artist = song.artistName {
-                Text(artist)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
+            Text(song.artistName)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
         }
         .frame(width: 120)
         .onTapGesture(perform: onTap)
