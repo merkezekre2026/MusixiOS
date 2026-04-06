@@ -52,13 +52,16 @@ jobs:
 
       - name: Create IPA
         run: |
-          APP_PATH="$HOME/Library/Developer/Xcode/DerivedData/MusixiOS-*/Build/Products/Release-iphoneos/MusixiOS.app"
           IPA_PATH="$GITHUB_WORKSPACE/MusixiOS.ipa"
           
           BUILT_APP=$(find "$HOME/Library/Developer/Xcode/DerivedData" -path "*/Build/Products/Release-iphoneos/MusixiOS.app" -type d | head -1)
           
           if [ -d "$BUILT_APP" ]; then
-            xcrun packagingtool -o "$IPA_PATH" --embed "$BUILT_APP"
+            mkdir -p "$GITHUB_WORKSPACE/Payload"
+            cp -R "$BUILT_APP" "$GITHUB_WORKSPACE/Payload/"
+            cd "$GITHUB_WORKSPACE"
+            zip -r MusixiOS.ipa Payload
+            rm -rf Payload
             ls -la "$IPA_PATH"
           else
             echo "App not found at $BUILT_APP"
